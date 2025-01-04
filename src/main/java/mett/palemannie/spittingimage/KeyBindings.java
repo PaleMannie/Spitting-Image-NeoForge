@@ -35,6 +35,7 @@ public class KeyBindings {
         if (minecraft.player == null) return;
 
         LivingEntity player = minecraft.player;
+        if (player.isSpectator()) return;
 
         while (SPITTING_KEY.get().consumeClick()) {
             UUID playerId = player.getUUID();
