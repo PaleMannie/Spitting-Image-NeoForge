@@ -13,8 +13,7 @@ public record SpitC2SPacket() implements CustomPacketPayload {
         return TYPE;
     }
 
-    public static final CustomPacketPayload.Type<SpitC2SPacket> TYPE = new CustomPacketPayload
-            .Type<>(ResourceLocation.fromNamespaceAndPath("mymod", "my_data"));
+    public static final Type<SpitC2SPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath("mymod", "my_data"));
 
     public static final StreamCodec<ByteBuf, SpitC2SPacket> STREAM_CODEC = ModStreamCodec.solo(SpitC2SPacket::new);
 
