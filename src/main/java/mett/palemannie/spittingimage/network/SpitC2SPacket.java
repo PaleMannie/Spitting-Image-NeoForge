@@ -1,6 +1,7 @@
 package mett.palemannie.spittingimage.network;
 
 import io.netty.buffer.ByteBuf;
+import mett.palemannie.spittingimage.SpittingImage;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
@@ -14,7 +15,7 @@ public record SpitC2SPacket() implements CustomPacketPayload {
     }
 
     public static final CustomPacketPayload.Type<SpitC2SPacket> TYPE = new CustomPacketPayload
-            .Type<>(ResourceLocation.fromNamespaceAndPath("mymod", "my_data"));
+            .Type<>(ResourceLocation.fromNamespaceAndPath(SpittingImage.MODID, "my_data"));
 
     public static final StreamCodec<ByteBuf, SpitC2SPacket> STREAM_CODEC = ModStreamCodec.solo(SpitC2SPacket::new);
 
