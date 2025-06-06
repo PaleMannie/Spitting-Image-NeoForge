@@ -44,7 +44,6 @@ public class KeyBindings {
             if (!cooldownMap.containsKey(playerId) || (currentTime - cooldownMap.get(playerId) >= COOLDOWN_TIME)) {
                 PacketDistributor.sendToServer(new SpitC2SPacket());
                 cooldownMap.put(playerId, currentTime);
-
             }
         }
     }
