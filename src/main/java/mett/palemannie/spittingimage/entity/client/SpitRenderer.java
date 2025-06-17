@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import mett.palemannie.spittingimage.SpittingImage;
+import mett.palemannie.spittingimage.SpittingImageConfig;
 import mett.palemannie.spittingimage.entity.custom.SpitEntity;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -11,8 +12,6 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.state.LlamaSpitRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
-import net.minecraft.world.entity.projectile.LlamaSpit;
 
 public class SpitRenderer extends EntityRenderer<SpitEntity, LlamaSpitRenderState> {
 
@@ -27,17 +26,20 @@ public class SpitRenderer extends EntityRenderer<SpitEntity, LlamaSpitRenderStat
 
     @Override
     public void render(LlamaSpitRenderState renderState, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
-        poseStack.pushPose();
 
-        poseStack.translate(0.0F, 0.1F, 0.0F);
-        poseStack.mulPose(Axis.YP.rotationDegrees(renderState.yRot - 90.0F));
-        poseStack.mulPose(Axis.ZP.rotationDegrees(renderState.xRot));
+        if(SpittingImageConfig.COMMON.enable3dModel.get()) {
+            poseStack.pushPose();
 
-        this.model.setupAnim(renderState);
-        VertexConsumer vertexconsumer = bufferSource.getBuffer(this.model.renderType(TEXTURE));
-        this.model.renderToBuffer(poseStack, vertexconsumer, packedLight, OverlayTexture.NO_OVERLAY);
-        poseStack.popPose();
-        super.render(renderState, poseStack, bufferSource, packedLight);
+            poseStack.translate(0.0F, 0.1F, 0.0F);
+            poseStack.mulPose(Axis.YP.rotationDegrees(renderState.yRot - 90.0F));
+            poseStack.mulPose(Axis.ZP.rotationDegrees(renderState.xRot));
+
+            this.model.setupAnim(renderState);
+            VertexConsumer vertexconsumer = bufferSource.getBuffer(this.model.renderType(TEXTURE));
+            this.model.renderToBuffer(poseStack, vertexconsumer, packedLight, OverlayTexture.NO_OVERLAY);
+            poseStack.popPose();
+            super.render(renderState, poseStack, bufferSource, packedLight);
+        }
     }
 
     @Override
