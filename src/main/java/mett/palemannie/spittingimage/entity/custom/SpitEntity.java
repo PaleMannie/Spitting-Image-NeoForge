@@ -1,5 +1,6 @@
 package mett.palemannie.spittingimage.entity.custom;
 
+import mett.palemannie.spittingimage.SpittingImageConfig;
 import mett.palemannie.spittingimage.entity.ModEntities;
 import mett.palemannie.spittingimage.util.ModDamageTypes;
 import net.minecraft.core.particles.ParticleTypes;
@@ -7,6 +8,8 @@ import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -79,55 +82,58 @@ public class SpitEntity extends ThrowableItemProjectile {
     protected void onHitEntity(EntityHitResult pResult) {
         super.onHitEntity(pResult);
 
-        Entity entity = this.getOwner();
+        Entity owner = this.getOwner();
+        Entity target = pResult.getEntity();
         Level level = this.level();
 
-        if (entity instanceof Player player) {
+        if (owner instanceof Player player) {
 
-            entity = pResult.getEntity();
+            if (target instanceof LivingEntity livingentity && (livingentity.hurtTime == 0 || (player.isCreative() && livingentity.hurtTime == 0))) {
 
-            if (entity instanceof LivingEntity livingentity && (livingentity.hurtTime == 0 || (player.isCreative() && livingentity.hurtTime == 0))) {
+                float damage = SpittingImageConfig.COMMON.spitDamage.get().floatValue();
 
-                pResult.getEntity().hurt(level.damageSources().source(ModDamageTypes.SPIT_DAMAGE), 1f);
+                DamageSource source1 = level().damageSources().source(ModDamageTypes.SPIT_DAMAGE, null, null);
+                DamageSource source2 = level().damageSources().source(DamageTypes.PLAYER_ATTACK, this.getOwner(), this.getOwner());
+
+                if (!(target == this.getOwner())) {
+                    pResult.getEntity().hurt(source2, 0.00000000001f);
+                }
+                pResult.getEntity().hurt(source1, damage);
                 this.discard();
             }
 
-            if(level instanceof ServerLevel serverLevel){
-                if (entity instanceof ItemFrame frame) {
+            if (level instanceof ServerLevel serverLevel) {
+                if (target instanceof ItemFrame frame) {
 
                     if (!frame.getItem().isEmpty()) {
 
                         if (!frame.level().isClientSide()) {
 
                             frame.level().addFreshEntity(new ItemEntity(
-                                frame.level(),
-                                frame.getX(),
-                                frame.getY(),
-                                frame.getZ(),
-                                frame.getItem().copy()
+                                    frame.level(),
+                                    frame.getX(),
+                                    frame.getY(),
+                                    frame.getZ(),
+                                    frame.getItem().copy()
                             ));
                         }
 
                         frame.setItem(ItemStack.EMPTY);
-                        level.playSound(null, frame.getPos(), SoundEvents.ITEM_FRAME_REMOVE_ITEM, SoundSource.AMBIENT);
 
                     } else {
 
                         this.discard();
-                        ((HangingEntity) entity).dropItem(serverLevel, entity);
+                        ((HangingEntity) frame).dropItem(serverLevel, frame);
                         frame.kill(serverLevel);
                     }
-                }
-
-                else if (entity instanceof Painting) {
+                } else if (target instanceof Painting painting) {
 
                     this.discard();
-                    ((HangingEntity) entity).dropItem(serverLevel, entity);
-                    entity.kill(serverLevel);
+                    ((HangingEntity) painting).dropItem(serverLevel, painting);
+                    painting.kill(serverLevel);
                 }
             }
         }
-
         this.discard();
     }
 
