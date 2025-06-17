@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import mett.palemannie.spittingimage.SpittingImage;
 import mett.palemannie.spittingimage.entity.custom.SpitEntity;
+import mett.palemannie.spittingimage.SpittingImageConfig;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -26,18 +27,21 @@ public class SpitRenderer extends EntityRenderer<SpitEntity> {
     @Override
     public void render(SpitEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
 
-        poseStack.pushPose();
+        if(SpittingImageConfig.COMMON.enable3dModel.get()){
 
-        poseStack.translate(0.0F, 0.1F, 0.0F);
-        poseStack.mulPose(Axis.YP.rotationDegrees(Mth.lerp(partialTicks, entity.yRotO, entity.getYRot()) - 90.0F));
-        poseStack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(partialTicks, entity.xRotO, entity.getXRot())));
+            poseStack.pushPose();
 
-        this.model.setupAnim(entity, partialTicks, 0.0F, -0.1F, 0.0F, 0.0F);
-        VertexConsumer vertexconsumer = buffer.getBuffer(this.model.renderType(TEXTURE));
-        this.model.renderToBuffer(poseStack, vertexconsumer, packedLight, OverlayTexture.NO_OVERLAY);
-        poseStack.popPose();
+            poseStack.translate(0.0F, 0.1F, 0.0F);
+            poseStack.mulPose(Axis.YP.rotationDegrees(Mth.lerp(partialTicks, entity.yRotO, entity.getYRot()) - 90.0F));
+            poseStack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(partialTicks, entity.xRotO, entity.getXRot())));
 
-        super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
+            this.model.setupAnim(entity, partialTicks, 0.0F, -0.1F, 0.0F, 0.0F);
+            VertexConsumer vertexconsumer = buffer.getBuffer(this.model.renderType(TEXTURE));
+            this.model.renderToBuffer(poseStack, vertexconsumer, packedLight, OverlayTexture.NO_OVERLAY);
+            poseStack.popPose();
+
+            super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
+        }
     }
 
     @Override

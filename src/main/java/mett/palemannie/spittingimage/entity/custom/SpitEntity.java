@@ -2,8 +2,11 @@ package mett.palemannie.spittingimage.entity.custom;
 
 import mett.palemannie.spittingimage.entity.ModEntities;
 import mett.palemannie.spittingimage.util.ModDamageTypes;
+import mett.palemannie.spittingimage.SpittingImageConfig;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -76,20 +79,24 @@ public class SpitEntity extends ThrowableItemProjectile {
     protected void onHitEntity(EntityHitResult pResult) {
         super.onHitEntity(pResult);
 
-        Entity entity = this.getOwner();
-        Level level = this.level();
+        Entity owner = this.getOwner();
+        Entity target = pResult.getEntity();
 
-        if (entity instanceof Player player) {
+        if (owner instanceof Player player) {
 
-            entity = pResult.getEntity();
+            if (target instanceof LivingEntity livingentity && (livingentity.hurtTime == 0 || (player.isCreative() && livingentity.hurtTime == 0))) {
 
-            if (entity instanceof LivingEntity livingentity && (livingentity.hurtTime == 0 || (player.isCreative() && livingentity.hurtTime == 0))) {
+                float damage = SpittingImageConfig.COMMON.spitDamage.get().floatValue();
 
-                pResult.getEntity().hurt(level.damageSources().source(ModDamageTypes.SPIT_DAMAGE), 1f);
+                DamageSource source1 = level().damageSources().source(ModDamageTypes.SPIT_DAMAGE, null, null);
+                DamageSource source2 = level().damageSources().source(DamageTypes.PLAYER_ATTACK, this.getOwner(), this.getOwner());
+
+                if(!(target == this.getOwner())){ pResult.getEntity().hurt(source2, 0.00000000001f); }
+                pResult.getEntity().hurt(source1, damage);
                 this.discard();
             }
 
-            else if (entity instanceof ItemFrame frame) {
+            else if (target instanceof ItemFrame frame) {
 
                 if (!frame.getItem().isEmpty()) {
 
@@ -109,16 +116,16 @@ public class SpitEntity extends ThrowableItemProjectile {
                 } else {
 
                     this.discard();
-                    ((HangingEntity) entity).dropItem(entity);
+                    ((HangingEntity) frame).dropItem(frame);
                     frame.kill();
                 }
             }
 
-            else if (entity instanceof Painting) {
+            else if (target instanceof Painting painting) {
 
                 this.discard();
-                ((HangingEntity) entity).dropItem(entity);
-                entity.kill();
+                ((HangingEntity) painting).dropItem(painting);
+                painting.kill();
             }
         }
 
