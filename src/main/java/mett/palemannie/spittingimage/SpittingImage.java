@@ -40,7 +40,7 @@ public class SpittingImage {
 
     private void commonSetup(final FMLCommonSetupEvent event) {}
 
-    @EventBusSubscriber(modid = MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+    @EventBusSubscriber(modid = MODID, /*bus = EventBusSubscriber.Bus.MOD,*/ value = Dist.CLIENT)
     public static class ClientModEvents
     {
         @SubscribeEvent
