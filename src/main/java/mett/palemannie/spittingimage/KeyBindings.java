@@ -9,6 +9,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.common.util.Lazy;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -42,7 +43,7 @@ public class KeyBindings {
             long currentTime = System.currentTimeMillis();
 
             if (!cooldownMap.containsKey(playerId) || (currentTime - cooldownMap.get(playerId) >= COOLDOWN_TIME)) {
-                PacketDistributor.sendToServer(new SpitC2SPacket());
+                ClientPacketDistributor.sendToServer(new SpitC2SPacket());
                 cooldownMap.put(playerId, currentTime);
             }
         }

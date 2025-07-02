@@ -119,6 +119,7 @@ public class SpitEntity extends ThrowableItemProjectile {
                         }
 
                         frame.setItem(ItemStack.EMPTY);
+                        level.playSound(frame, frame.getX(), frame.getY(), frame.getZ(), SoundEvents.ITEM_FRAME_REMOVE_ITEM, SoundSource.AMBIENT, 1f, 1f);
 
                     } else {
 
