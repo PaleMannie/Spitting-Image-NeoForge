@@ -20,6 +20,7 @@ public class SpittingImageConfig {
 
         public final ModConfigSpec.DoubleValue spitDamage;
         public final ModConfigSpec.BooleanValue enable3dModel;
+        public final ModConfigSpec.IntValue spitCooldown;
 
         Common(ModConfigSpec.Builder builder) {
 
@@ -27,6 +28,8 @@ public class SpittingImageConfig {
 
             spitDamage = builder.comment("How much damage the spit deals (default: 1.0)").defineInRange("spitDamage", 1.0, 0.0, Float.MAX_VALUE);
             enable3dModel = builder.comment("Enables/Disables the player spit model").define("enable3dModel", true);
+            spitCooldown = builder.comment("Cooldown in ticks between spitting (20 ticks = 1 second). Default: 3 ticks").
+                    defineInRange("spitCooldown", 3, 1, Integer.MAX_VALUE-1);
 
             builder.pop();
         }

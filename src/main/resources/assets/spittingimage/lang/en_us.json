@@ -3,5 +3,7 @@
   "key.spittingimage.category.spit": "Spitting Image",
 
   "death.attack.spittingimage.spit_damage": "%1$s drowned in their own spit",
-  "death.attack.spittingimage.spit_damage.player": "%2$s spat on %1$s with full intent"
+  "death.attack.spittingimage.spit_damage.player": "%2$s spat on %1$s with full intent",
+
+  "spittingimage.spitcooldown": "Can't spit yet, cooldown..."
 }

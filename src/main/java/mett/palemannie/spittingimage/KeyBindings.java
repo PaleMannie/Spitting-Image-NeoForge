@@ -21,7 +21,7 @@ import java.util.UUID;
 public class KeyBindings {
 
     private static final Map<UUID, Long> cooldownMap = new HashMap<>();
-    private static final long COOLDOWN_TIME = 150;
+    private static final long COOLDOWN_TIME = SpittingImageConfig.COMMON.spitCooldown.get()*50L;
 
     public static final Lazy<KeyMapping> SPITTING_KEY = Lazy.of(() -> new KeyMapping(
             "key.spittingimage.spitting",
