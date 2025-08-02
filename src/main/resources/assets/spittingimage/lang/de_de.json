@@ -3,5 +3,7 @@
   "key.spittingimage.category.spit": "Spitting Image",
 
   "death.attack.spittingimage.spit_damage": "%1$s ertrank in der eigenen Spucke",
-  "death.attack.spittingimage.spit_damage.player": "%2$s spuckte auf %1$s mit voller Absicht"
+  "death.attack.spittingimage.spit_damage.player": "%2$s spuckte auf %1$s mit voller Absicht",
+
+  "spittingimage.spitcooldown": "Kannst noch nicht spucken, Abklingzeit..."
 }
