@@ -22,6 +22,7 @@ public record SpitC2SPacket() implements CustomPacketPayload {
         context.enqueueWork(()->{
 
             ServerPlayer player = context.player().getServer().getPlayerList().getPlayer(context.player().getUUID());
+            ServerPlayer pllayer = context.player().
             ServerPlayHandler.handleSpitting(player);
 
         });

@@ -73,7 +73,7 @@ public class SpitEntity extends ThrowableItemProjectile {
     protected void onHitBlock(BlockHitResult pResult) {
         super.onHitBlock(pResult);
 
-        if (!this.level().isClientSide) {
+        if (!this.level().isClientSide()) {
             this.discard();
         }
     }
@@ -146,9 +146,9 @@ public class SpitEntity extends ThrowableItemProjectile {
     @Override
     public void recreateFromPacket(ClientboundAddEntityPacket packet) {
         super.recreateFromPacket(packet);
-        double d0 = packet.getXa();
-        double d1 = packet.getYa();
-        double d2 = packet.getZa();
+        double d0 = packet.getMovement().x();
+        double d1 = packet.getMovement().y();
+        double d2 = packet.getMovement().z();
 
         for (int i = 0; i < 3; i++) {
             double d3 = 0.4 + 0.1 * i;
