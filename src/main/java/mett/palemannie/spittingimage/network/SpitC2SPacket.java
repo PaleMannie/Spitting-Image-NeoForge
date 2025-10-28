@@ -21,10 +21,10 @@ public record SpitC2SPacket() implements CustomPacketPayload {
     public static void handle(SpitC2SPacket payload, IPayloadContext context) {
         context.enqueueWork(()->{
 
-            ServerPlayer player = context.player().getServer().getPlayerList().getPlayer(context.player().getUUID());
-            ServerPlayer pllayer = context.player().
-            ServerPlayHandler.handleSpitting(player);
+            if (context.player() instanceof ServerPlayer player) {
 
+                ServerPlayHandler.handleSpitting(player);
+            }
         });
     }
 }
