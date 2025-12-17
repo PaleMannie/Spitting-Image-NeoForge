@@ -12,11 +12,11 @@ import net.minecraft.client.renderer.entity.state.LlamaSpitRenderState;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class SpitRenderer extends EntityRenderer<SpitEntity, LlamaSpitRenderState> {
 
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(SpittingImage.MODID, "textures/entity/spit/spit.png");
+    private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(SpittingImage.MODID, "textures/entity/spit/spit.png");
     private SpitModel model;
 
     public SpitRenderer(EntityRendererProvider.Context context) {

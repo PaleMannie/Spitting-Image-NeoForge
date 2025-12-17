@@ -4,7 +4,7 @@ import com.mojang.blaze3d.platform.InputConstants;
 import mett.palemannie.spittingimage.network.SpitC2SPacket;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -28,7 +28,7 @@ public class KeyBindings {
             "key.spittingimage.spitting",
             InputConstants.Type.KEYSYM,
             GLFW.GLFW_KEY_COMMA,
-            KeyMapping.Category.register(ResourceLocation.parse("spit"))
+            KeyMapping.Category.register(Identifier.parse("spit"))
     ));
 
     public static void onClientTick(ClientTickEvent.Post event) {
