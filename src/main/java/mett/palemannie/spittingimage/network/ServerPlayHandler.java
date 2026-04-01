@@ -38,18 +38,18 @@ public class ServerPlayHandler {
                 SpitEntity spitEntity = new SpitEntity(ModEntities.SPIT.get(), serverWorld);
                 spitEntity.setOwner(player);
                 spitEntity.setPosRaw(player.getX(), player.getEyeY() - 0.2f, player.getZ());
-                float velocity = 0.45f + world.random.nextFloat() * 0.1f;
+                float velocity = 0.45f + world.getRandom().nextFloat() * 0.1f;
                 spitEntity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0f, velocity, 1f);
                 serverWorld.addFreshEntity(spitEntity);
             }
 
             ///Sound
             Level lvl = player.level();
-            float r = 0.8f + lvl.random.nextFloat() * 0.3f;
+            float r = 0.8f + lvl.getRandom().nextFloat() * 0.3f;
             lvl.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.LLAMA_SPIT, SoundSource.BLOCKS, 1f, r);
         } else {
 
-            player.displayClientMessage(Component.translatable("spittingimage.spitcooldown").withStyle(ChatFormatting.RED), true);
+            player.sendSystemMessage(Component.translatable("spittingimage.spitcooldown").withStyle(ChatFormatting.RED), true);
         }
     }
 }
